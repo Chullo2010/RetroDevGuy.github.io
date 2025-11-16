@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Game Catalog</title>
+
+    <!-- Retro Pixel Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            color: #33ff66;
+            font-family: "Press Start 2P", cursive;
+            text-shadow: 0 0 8px #33ff66;
+            overflow-x: hidden;
+        }
+
+        /* Animated retro space background */
+        .space {
+            position: fixed;
+            width: 200%;
+            height: 200%;
+            background: url("https://i.imgur.com/4NJ7D0B.png"); /* Starfield */
+            background-size: cover;
+            animation: drift 60s linear infinite;
+            z-index: -1;
+            filter: brightness(0.7);
+        }
+
+        @keyframes drift {
+            from { transform: translate(0, 0); }
+            to { transform: translate(-300px, -300px); }
+        }
+
+        header {
+            padding: 30px;
+            text-align: center;
+            font-size: 24px;
+            background: #000000aa;
+            border-bottom: 4px solid #33ff66;
+            backdrop-filter: blur(4px);
+        }
+
+        .catalog {
+            padding: 40px;
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: #111;
+            border: 3px solid #33ff66;
+            padding: 25px;
+            text-align: center;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            background: #33ff66;
+            color: black;
+            text-shadow: none;
+            transform: scale(1.05);
+        }
+
+        .card img {
+            width: 100%;
+            border: 4px solid #33ff66;
+            image-rendering: pixelated;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="space"></div>
+
+<header>
+    RETRO GAME CATALOG
+</header>
+
+<div class="catalog">
+
+    <!-- Game 1 -->
+    <div class="card" onclick="window.location='block3d.html'">
+        <img src="block3d-img.png" alt="Block 3D">
+        <h2>Block 3D</h2>
+        <p>Click for details</p>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Block 3D</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            color: #33ff66;
+            font-family: "Press Start 2P", cursive;
+            text-shadow: 0 0 8px #33ff66;
+        }
+
+        .space {
+            position: fixed;
+            width: 200%;
+            height: 200%;
+            background: url("https://i.imgur.com/4NJ7D0B.png");
+            background-size: cover;
+            animation: drift 60s linear infinite;
+            z-index: -1;
+            filter: brightness(0.7);
+        }
+
+        @keyframes drift {
+            from { transform: translate(0, 0); }
+            to { transform: translate(-300px, -300px); }
+        }
+
+        header {
+            padding: 30px;
+            text-align: center;
+            font-size: 24px;
+            background: #000000aa;
+            border-bottom: 4px solid #33ff66;
+            backdrop-filter: blur(4px);
+        }
+
+        .section {
+            max-width: 900px;
+            margin: auto;
+            padding: 40px;
+        }
+
+        .card {
+            background: #111;
+            border: 3px solid #33ff66;
+            padding: 25px;
+            margin-bottom: 40px;
+        }
+
+        img {
+            width: 100%;
+            border: 4px solid #33ff66;
+            margin-top: 20px;
+            image-rendering: pixelated;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 3px solid #33ff66;
+            color: #33ff66;
+            text-decoration: none;
+            transition: 0.2s;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background: #33ff66;
+            color: black;
+            text-shadow: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="space"></div>
+
+<header>
+    BLOCK 3D
+</header>
+
+<div class="section">
+
+    <div class="card">
+        <h2>About Block 3D</h2>
+        <p>Block 3D is a voxel-based building and exploration game with retro vibes.</p>
+        <p>You can explore, build, survive, and more.</p>
+        <img src="block3d-img.png" alt="Block 3D Screenshot">
+    </div>
+
+    <div class="card">
+        <h2>Download</h2>
+        <a class="button" href="#">Download Block 3D</a>
+        <p>(Add download link later)</p>
+    </div>
+
+    <div class="card">
+        <h2>Screenshots</h2>
+        <img src="block3d-img2.png">
+        <img src="block3d-img3.png">
+    </div>
+
+    <div class="card">
+        <h2>Devlogs</h2>
+        <p>• Devlog #1 — Terrain generation overhaul</p>
+        <p>• Devlog #2 — Player controls update</p>
+        <p>• Devlog #3 — Added new block types</p>
+    </div>
+
+</div>
+
+</body>
+</html>
