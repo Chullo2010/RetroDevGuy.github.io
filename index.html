@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Game Catalog</title>
+    <title>Retro Game Catalog</title>
 
     <!-- Retro Pixel Font -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -11,29 +11,45 @@
         body {
             margin: 0;
             background: black;
+            overflow: hidden;
             color: #33ff66;
             font-family: "Press Start 2P", cursive;
             text-shadow: 0 0 8px #33ff66;
-            overflow-x: hidden;
         }
 
-        /* Animated retro space background */
-        .space {
+        /* Animated retro asteroid background */
+        #space {
             position: fixed;
-            width: 200%;
-            height: 200%;
-            background: url("https://i.imgur.com/4NJ7D0B.png"); /* Starfield */
-            background-size: cover;
-            animation: drift 60s linear infinite;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
             z-index: -1;
-            filter: brightness(0.7);
+        }
+
+        .asteroid {
+            position: absolute;
+            width: 0;
+            height: 0;
+
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 20px solid #33ff66;
+
+            opacity: 0.8;
+            filter: drop-shadow(0 0 6px #33ff66);
+
+            transform-origin: center;
+            animation: drift linear infinite;
         }
 
         @keyframes drift {
-            from { transform: translate(0, 0); }
-            to { transform: translate(-300px, -300px); }
+            from { transform: translate(0,0) rotate(0deg); }
+            to   { transform: translate(var(--dx), var(--dy)) rotate(360deg); }
         }
 
+        /* UI */
         header {
             padding: 30px;
             text-align: center;
@@ -78,7 +94,8 @@
 
 <body>
 
-<div class="space"></div>
+<!-- Retro Space Background -->
+<div id="space"></div>
 
 <header>
     RETRO GAME CATALOG
@@ -94,6 +111,33 @@
     </div>
 
 </div>
+
+<script>
+const space = document.getElementById("space");
+
+// How many triangles on screen
+const ASTEROID_COUNT = 40;
+
+for (let i = 0; i < ASTEROID_COUNT; i++) {
+    const a = document.createElement("div");
+    a.className = "asteroid";
+
+    // Random start position
+    a.style.left = Math.random() * window.innerWidth + "px";
+    a.style.top = Math.random() * window.innerHeight + "px";
+
+    // Random drift direction
+    a.style.setProperty("--dx",
+        (Math.random() * 800 - 400) + "px");
+    a.style.setProperty("--dy",
+        (Math.random() * 800 - 400) + "px");
+
+    // Random speed
+    a.style.animationDuration = (15 + Math.random() * 30) + "s";
+
+    space.appendChild(a);
+}
+</script>
 
 </body>
 </html>
