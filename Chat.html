@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Bloxybob Games – Chat</title>
+  <title>Libary</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
@@ -286,6 +286,13 @@ async function postMessage() {
 }
 
 document.getElementById("postMessage").onclick = postMessage;
+// Allow pressing ENTER to send message
+document.getElementById("userMessage").addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault(); // stops line breaks
+        postMessage();
+    }
+});
 
 /* === CLEAR BOARD (ADMIN ONLY) === */
 document.getElementById("clearBoard").onclick = async () => {
