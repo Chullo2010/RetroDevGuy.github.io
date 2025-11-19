@@ -1,131 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>RetroDevGuy</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloxybob Games</title>
 
-<style>
-    html, body {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background: black;
-        font-family: "Courier New", monospace;
-        color: white;
-    }
+    <style>
+        body {
+            margin: 0;
+            font-family: monospace;
+            background: black;
+            color: white;
+        }
 
-    /* Container for your catalog */
-    .content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        z-index: 10;
-    }
+        /* STARFIELD BACKGROUND */
+        canvas {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: -1;
+        }
 
-    .game-card {
-        display: inline-block;
-        padding: 20px;
-        background: rgba(0,0,0,0.6);
-        border: 3px solid #00ffff;
-        border-radius: 6px;
-        text-decoration: none;
-        color: white;
-        transition: 0.2s;
-    }
+        /* HEADER */
+        .header {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px 10px;
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            border-bottom: 2px solid cyan;
+        }
 
-    .game-card:hover {
-        background: rgba(0, 40, 40, 0.6);
-        transform: scale(1.05);
-        cursor: pointer;
-    }
+        /* GAME GRID */
+        .games {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
 
-    canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-</style>
+        /* GAME CARD */
+        .card {
+            background: #111;
+            border: 2px solid #333;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.15s, border-color 0.15s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: scale(1.04);
+            border-color: cyan;
+        }
+
+        .card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 3px;
+            image-rendering: pixelated;
+        }
+
+        .card-title {
+            margin-top: 10px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .btn {
+            margin-top: 12px;
+            display: inline-block;
+            padding: 8px 18px;
+            background: cyan;
+            color: black;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 
 <body>
 
-<canvas id="bg"></canvas>
+<canvas id="space"></canvas>
 
-<div class="content">
-    <a href="block3d.html" class="game-card">
-        <h1>Block 3D</h1>
-        <p>Click to view info & downloads</p>
-    </a>
+<div class="header">Bloxybob Games</div>
+
+<!-- GAME SELECT GRID -->
+<div class="games">
+
+    <!-- Block 3D -->
+    <div class="card" onclick="location.href='block3d.html'">
+        <img src="images/block1.png">
+        <div class="card-title">Block 3D</div>
+        <a class="btn" href="block3d.html">View</a>
+    </div>
+
+    <!-- Add more game cards here easily -->
+    <!-- Example:
+    <div class="card" onclick="location.href='mygame.html'">
+        <img src="images/mygame.png">
+        <div class="card-title">My Game</div>
+        <a class="btn" href="mygame.html">View</a>
+    </div>
+    -->
+
 </div>
 
 <script>
-    const canvas = document.getElementById("bg");
-    const ctx = canvas.getContext("2d");
+/* STARFIELD BACKGROUND */
+const c = document.getElementById("space");
+const ctx = c.getContext("2d");
 
-    let w, h;
-    function resize() {
-        w = canvas.width = window.innerWidth;
-        h = canvas.height = window.innerHeight;
-    }
-    window.addEventListener("resize", resize);
-    resize();
+function resize() {
+    c.width = window.innerWidth;
+    c.height = window.innerHeight;
+}
+resize();
+window.onresize = resize;
 
-    /* Pixel Asteroids (Triangular pixels) */
-    const ASTEROIDS = [];
-    const COUNT = 90; // how many retro asteroids
+let stars = [];
+for (let i = 0; i < 120; i++) {
+    stars.push({
+        x: Math.random() * c.width,
+        y: Math.random() * c.height,
+        speed: 0.3 + Math.random() * 1,
+        size: Math.random() * 2,
+    });
+}
 
-    function newAsteroid() {
-        return {
-            x: Math.random() * w,
-            y: Math.random() * h,
-            size: 6 + Math.random() * 10, // chunky pixel triangles
-            speed: 0.5 + Math.random() * 1.2,
-            angle: Math.random() * Math.PI * 2
-        };
-    }
+function loop() {
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, c.width, c.height);
 
-    for (let i = 0; i < COUNT; i++) ASTEROIDS.push(newAsteroid());
-
-    function drawAsteroid(a) {
-        ctx.fillStyle = "#00ffff"; // neon retro pixel color
-
-        ctx.save();
-        ctx.translate(a.x, a.y);
-        ctx.rotate(a.angle);
-
-        // Pixelated triangle asteroid
-        ctx.beginPath();
-        ctx.moveTo(0, -a.size);
-        ctx.lineTo(a.size, a.size);
-        ctx.lineTo(-a.size, a.size);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.restore();
-    }
-
-    function update() {
-        ctx.clearRect(0, 0, w, h);
-
-        for (let a of ASTEROIDS) {
-            a.y += a.speed;
-            a.angle += 0.01;
-
-            if (a.y > h + 50) {
-                a.x = Math.random() * w;
-                a.y = -50;
-            }
-
-            drawAsteroid(a);
+    ctx.fillStyle = "white";
+    stars.forEach(s => {
+        s.y += s.speed;
+        if (s.y > c.height) {
+            s.y = 0;
+            s.x = Math.random() * c.width;
         }
+        ctx.fillRect(s.x, s.y, s.size, s.size);
+    });
 
-        requestAnimationFrame(update);
-    }
-
-    update();
+    requestAnimationFrame(loop);
+}
+loop();
 </script>
 
 </body>
